@@ -30,7 +30,12 @@ def pick(paragraphs, select, k):
     ''
     """
     # BEGIN PROBLEM 1
-    "*** YOUR CODE HERE ***"
+    filtered_paragraphs = [p for p in paragraphs if select(p)]
+
+    if k < len(filtered_paragraphs):
+        return filtered_paragraphs[k]
+    else:
+        return ""
     # END PROBLEM 1
 
 
@@ -47,10 +52,10 @@ def about(subject):
     >>> pick(['Cute Dog!', 'That is a cat.', 'Nice pup.'], about_dogs, 1)
     'Nice pup.'
     """
-    assert all([lower(x) == x for x in subject]
+    assert all([x.lower() == x for x in subject]
                ), 'subjects should be lowercase.'
-    # BEGIN PROBLEM 2
-    "*** YOUR CODE HERE ***"
+    s = set(subject)
+    return lambda p: any(word in s for word in remove_punctuation(p).lower().split())
     # END PROBLEM 2
 
 
@@ -80,7 +85,20 @@ def accuracy(typed, source):
     typed_words = split(typed)
     source_words = split(source)
     # BEGIN PROBLEM 3
-    "*** YOUR CODE HERE ***"
+    # edge case:
+    if typed == "" and source == "":
+        return 100.
+
+    if typed == "" or source == "":
+        return 0.0
+
+    match = 0
+    for i in range(min(len(typed_words), len(source_words))):
+        if typed_words[i] == source_words[i]:
+            match += 1
+
+    return (match / len(typed_words)) * 100.0
+
     # END PROBLEM 3
 
 
@@ -98,7 +116,7 @@ def wpm(typed, elapsed):
     """
     assert elapsed > 0, 'Elapsed time must be positive'
     # BEGIN PROBLEM 4
-    "*** YOUR CODE HERE ***"
+    return len(typed) / 5.0 * (60 / elapsed)
     # END PROBLEM 4
 
 
@@ -127,7 +145,17 @@ def autocorrect(typed_word, word_list, diff_function, limit):
     'testing'
     """
     # BEGIN PROBLEM 5
-    "*** YOUR CODE HERE ***"
+    # Find the word with the smallest difference
+    closest_word = min(
+        word_list, key=lambda word: diff_function(typed_word, word, limit))
+
+    # Check if the smallest difference is within the limit
+    if typed_word in word_list:
+        return typed_word
+    if diff_function(typed_word, closest_word, limit) <= limit:
+        return closest_word
+    else:
+        return typed_word
     # END PROBLEM 5
 
 
