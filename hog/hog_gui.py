@@ -117,12 +117,14 @@ def trace_play(play, strategy0, strategy1, update, score0, score1, dice, goal):
 
     def mod_strategy(who, my_score, opponent_score):
         if game_trace:
-            prev_total_score = game_trace[-1]["s0_start"] + game_trace[-1]["s1_start"]
+            prev_total_score = game_trace[-1]["s0_start"] + \
+                game_trace[-1]["s1_start"]
             if prev_total_score == my_score + opponent_score:
                 # game is still on last turn since the total number of points
                 # goes up every turn
                 return game_trace[-1]["num_dice"]
-        current_num_dice = (strategy0, strategy1)[who](my_score, opponent_score)
+        current_num_dice = (strategy0, strategy1)[
+            who](my_score, opponent_score)
         current_turn = {
             "s0_start": [my_score, opponent_score][who],
             "s1_start": [my_score, opponent_score][1 - who],
@@ -136,7 +138,8 @@ def trace_play(play, strategy0, strategy1, update, score0, score1, dice, goal):
     def mod_dice():
         roll = dice()
         if not game_trace:
-            raise RuntimeError("roll_dice called before either strategy function")
+            raise RuntimeError(
+                "roll_dice called before either strategy function")
         game_trace[-1]["dice_values"].append(roll)
         return roll
 

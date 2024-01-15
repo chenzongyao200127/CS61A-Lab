@@ -67,9 +67,11 @@ def sus_update_and_print(num_rolls, player_score, opponent_score, dice):
     23
     """
     print('  [', end=" ")
-    turn_score = take_turn(num_rolls, player_score, opponent_score, dice)  # Prints dice outcomes
+    turn_score = take_turn(num_rolls, player_score,
+                           opponent_score, dice)  # Prints dice outcomes
     print('] =>', turn_score, end='; ')
-    print(player_score, '+', turn_score, '=', player_score + turn_score, end='')
+    print(player_score, '+', turn_score, '=',
+          player_score + turn_score, end='')
     score = turn_score + player_score
     sus_score = sus_points(score)
     if sus_score != score:
@@ -97,7 +99,8 @@ def get_int(prompt, lower, upper):
 def interactive_strategy(who):
     """Return a strategy for which the user provides the number of rolls."""
     def strategy(score, opponent_score):
-        print('Player', who, ', you have', score, 'and your opponent has', opponent_score)
+        print('Player', who, ', you have', score,
+              'and your opponent has', opponent_score)
         choice = get_int('How many dice will you roll? ', 0, 10)
         return choice
     return strategy
